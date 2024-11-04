@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Jogos</h1>
+    </header>
+    <main>
+        <section id="game-form">
+            <h2>Adicionar/Editar Jogo</h2>
+            <form id="gameForm">
+                <label for="gameName">Nome do Jogo:</label>
+                <input type="text" id="gameName" required>
+
+                <label for="gamePublisher">Editora</label>
+                <input type="text" id="gamePublisher" required>
+
+                <label for="gameReleaseDate">Data de Lancamento</label>
+                <input type="date" id="gameReleaseDate" required>
+
+                <button type="submit">Salvar</button>
+            </form>
+        </section>
+        <section id="game-list">
+            <h2>Lista de Jogos</h2>
+            <ul  id="gameList"></ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Cadastro de Jogos</p>
+    </footer>`
+    
+</body>
+</html>
