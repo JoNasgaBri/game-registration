@@ -52,53 +52,55 @@ function renderGames() {
         //E definido o content  HTML da lista E butoes da lista
         li.innerHTML = `
             <strong>${game.name}</strong> - ${game.publisher} (${game.releaseDate})
-            <button onclick="editGame(${index})">Editar</button>
-            <button onclick="deleteGame(${index})">Deletar</button>
+            <button class="edit-btn" onclick="editGame(${index})">Editar</button>
+            <button class ="delete-btn"onclick="deleteGame(${index})">Deletar</button>
         `;
         //Adicionado um item a lista (gameList)
         gamesList.appendChild(li);
     });
 }
-
+//Funcao para limpar os campos do formulsrio
 function clearForm() {
     document.getElementById('gameName').value = '';
     document.getElementById('gamePublisher').value = '';
     document.getElementById('gameReleaseDate').value = '';
     gameManager.currentEditIndex = -1;
 }
-
+// Adiciona um evento de submit ao formulario
 gameForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    // Obtem os valores dos campos do formulario
     const name = document.getElementById('gameName').value;
     const publisher = document.getElementById('gamePublisher').value;
     const releaseDate = document.getElementById('gameReleaseDate').value;
-
+    // Criacao de uma nova instância de Game com os values do formulario
     const game = new Game(name, publisher, releaseDate);
-
+    // verificacao se esta editando ou adicionando um novo jogo
     if (gameManager.currentEditIndex === -1) {
         gameManager.addGame(game);
     } else {
         gameManager.editGame(gameManager.currentEditIndex, game);
     }
-
+    //limpa o formulario apos a operacao ser concluida
     clearForm();
+    // atualiza a lista de jogos na interface
     renderGames();
 });
-
-window.editGame = function(index) {
+    // Funcao global para editar um jogo
+    window.editGame = function(index) {
     const game = gameManager.getGames()[index];
     document.getElementById('gameName').value = game.name;
     document.getElementById('gamePublisher').value = game.publisher;
     document.getElementById('gameReleaseDate').value = game.releaseDate;
     gameManager.currentEditIndex = index;
 }
-
-window.deleteGame = function(index) {
+    // Funcao global para deletar um jogo
+    window.deleteGame = function(index) {
     if (confirm('Tem certeza que deseja deletar este jogo?')) {
         gameManager.deleteGame(index);
         renderGames();
     }
 }
-
+// Renderiza a lista inicial de jogos
 renderGames();
 
