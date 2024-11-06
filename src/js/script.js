@@ -1,6 +1,40 @@
-//Import das clases game e gameManager 
-import { Game } from './game.js';
-import { GameManager } from './gameManager.js';
+// Define a classe Game
+ class Game {
+    // construtor da classe recebe três parâmetros: nome, editor e data de lançamento
+        constructor(name,publisher, releaseDate) {
+    // Atribuicao das propriedades ao objeto
+            this.name = name;
+            this.publisher = publisher;
+            this.releaseDate = releaseDate;
+        }
+    }
+//Define a classe GameManager 
+ class GameManager {
+    //Inicializacao das propriedades da classe 
+    constructor(){
+        // Inicializa um array vazio para armazenar os jogos
+        this.games =[];
+        //Inicializa o índice do jogo atualmente em edição como -1 ou seja nenhum jogo editado
+        this.currentEditIndex = -1;
+    }
+     // Metodo adicionar um novo jogo ao array de games
+    addGame(game) {
+        this.games.push(game);
+    }
+    // Metodo editar um jogo que existe com base no indice fornecido
+    editGame(index,game) {
+        this.games[index] = game;//ocorre a substituicao do jogo indice espeficado pelo novo jogo passado como argumento
+    }
+    // Metodo para remover um jogo com base no indice fornecido
+    deleteGame(index) {
+        this.games.splice(index,1);
+    }
+    //Metodo para obter a lista de jogos
+    getGames() {
+        return this.games; // Se retorna o array de jogos
+    }
+}
+
 // Criacao de uma nova instancia GameManager
 const gameManager = new GameManager();
 //Obtem os elementos do form pelo ID do html
@@ -25,4 +59,46 @@ function renderGames() {
         gamesList.appendChild(li);
     });
 }
+
+function clearForm() {
+    document.getElementById('gameName').value = '';
+    document.getElementById('gamePublisher').value = '';
+    document.getElementById('gameReleaseDate').value = '';
+    gameManager.currentEditIndex = -1;
+}
+
+gameForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('gameName').value;
+    const publisher = document.getElementById('gamePublisher').value;
+    const releaseDate = document.getElementById('gameReleaseDate').value;
+
+    const game = new Game(name, publisher, releaseDate);
+
+    if (gameManager.currentEditIndex === -1) {
+        gameManager.addGame(game);
+    } else {
+        gameManager.editGame(gameManager.currentEditIndex, game);
+    }
+
+    clearForm();
+    renderGames();
+});
+
+window.editGame = function(index) {
+    const game = gameManager.getGames()[index];
+    document.getElementById('gameName').value = game.name;
+    document.getElementById('gamePublisher').value = game.publisher;
+    document.getElementById('gameReleaseDate').value = game.releaseDate;
+    gameManager.currentEditIndex = index;
+}
+
+window.deleteGame = function(index) {
+    if (confirm('Tem certeza que deseja deletar este jogo?')) {
+        gameManager.deleteGame(index);
+        renderGames();
+    }
+}
+
+renderGames();
 
